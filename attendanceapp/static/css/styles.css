@@ -1,0 +1,45 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 5px;
+    border: 1px solid #000;
+    text-align: center;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f8f8;
+    z-index: 10;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.available {
+    background-color: white;
+    color: blue;
+    border: none;
+}
+tbody tr td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #f8f8f8;
+    z-index: 9;
+}
+
+.notAvailable {
+    background-color: grey;
+    border: none;
+}
+
+.yourReservation {
+    background-color: white;
+    color: greenyellow;
+    border: none;
+}

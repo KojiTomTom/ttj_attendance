@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Excel Data to ListBox</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <form method="GET" action="{% url 'initialize' %}">
+        <button type="submit">Go Back</button>
+    </form>
+    <p>Employee: {{ employeeName }}</p>
+    <form method="POST" action="{% url 'month_change' %}">
+        {% csrf_token %}
+        <select id="monthSelect" name="monthSelect" onchange="this.form.submit()">
+            {% for item in month_list %}
+            <option value="{{ item }}" {% if item == selected_month %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">Seat ID</th>
+                {% for header in headers %}
+                <th colspan="2">{{ header }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for slot in slots %}
+                <th>{{ slot }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.seat_id }}</td>
+                {% for slot_value in item.am_pm_data %}
+                <td>
+                    {% if slot_value == '' %}
+                    <form method="post" action="{% url 'reserve_check' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="seat_id" value="{{ item.seat_id }}">
+                        <input type="hidden" name="column_number" value="{{ forloop.counter0 }}">
+                        <button type="submit" class="available">〇</button>
+                    </form>
+                    {% elif slot_value == employeeId %}
+                    <form method="post" action="{% url 'cancel_reservation' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="seat_id" value="{{ item.seat_id }}">
+                        <input type="hidden" name="column_number" value="{{ forloop.counter0 }}">
+                        <button type="submit" class="yourReservation">R</button>
+                    </form>
+                    {% else %}
+                    <button type="submit" class="notAvailable">×</button>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

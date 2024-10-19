@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Name</title>
+</head>
+
+<body>
+    <form method="POST" action="{% url 'check_selection' %}">
+        {% csrf_token %}
+        <label for="employeeSelect">Choose Employee</label>
+        <select id="employeeSelect" name="employeeSelect">
+            <option value="0">Name</option>
+            {% for item in employee_list %}
+            <option value="{{ item.id }}">{{ item.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Go to Reservation</button>
+    </form>
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</body>
+
+</html>
