@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
+from django.core.management.utils import get_random_secret_key
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +36,20 @@ STATICFILES_DIRS = [
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ve)l(n57#7m$smshz=sq-%16&sg1o^)&wzd!m1lct$u$u_rmue"
+# SECRET_KEY = "django-insecure-ve)l(n57#7m$smshz=sq-%16&sg1o^)&wzd!m1lct$u$u_rmue"
+
+try:
+    from .local_settings import *
+    DEBUG = True
+    FRONTEND_URL = 'http://127.0.0.1:8000/'
+    ALLOWED_HOSTS = []
+
+except ImportError:
+    DEBUG = False
+    SECRET_KEY = get_random_secret_key()
+    ALLOWED_HOSTS = ['.pythonanywhere.com']
+
+HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,3 +157,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EXCEL_PATH = 'media/data.xlsx'
 EXCEL_SHEET_NAME_EMPLOYEE = 'Employees'
 EXCEL_SHEET_NAME_SEAT = 'Seats'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
