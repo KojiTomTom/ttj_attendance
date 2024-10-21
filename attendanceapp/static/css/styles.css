@@ -1,6 +1,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: x-small;
 }
 
 th,
@@ -42,4 +43,14 @@ tbody tr td:first-child {
     background-color: white;
     color: greenyellow;
     border: none;
+}
+
+.saturday {
+    background-color: lightblue;
+}
+.sunday {
+    background-color: red;
+}
+.weekend {
+    background-color: lightblue; /* 土日行を水色に */
 }

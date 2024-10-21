@@ -11,7 +11,21 @@
     <form method="GET" action="{% url 'initialize' %}">
         <button type="submit">Go Back</button>
     </form>
-    <p>Employee: {{ employeeName }}</p>
+    <div>
+        <div>Employee: {{ employeeName }}</div>
+        <div>
+            {% if errMessage %}
+            <p style="color: red;">{{ errMessage }}</p>
+            {% endif %}
+            {% if successMessage %}
+            <p style="color: green;">{{ successMessage }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <img src="{{ MEDIA_URL }}/attendanceapp/media/seats.png" alt="Seats Image" style="width: 600px;">
+        </div>
+    </div>
+
     <form method="POST" action="{% url 'month_change' %}">
         {% csrf_token %}
         <select id="monthSelect" name="monthSelect" onchange="this.form.submit()">

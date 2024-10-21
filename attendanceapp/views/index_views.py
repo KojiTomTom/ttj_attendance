@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from ..utils import get_all_sheets,get_employee_list
 from django.conf import settings
 import openpyxl
+from openpyxl.styles import PatternFill
 from datetime import datetime, timedelta
 import calendar
 
@@ -47,15 +48,24 @@ def initialize_excel():
                 1,
                 calendar.monthrange(sheet_date.year, sheet_date.month)[1],
             )
+
+            dayIdx = 1
             for day in range(first_day, last_day + 1):
-                date = datetime(sheet_date.year, sheet_date.month, day).strftime(
-                    "%m-%d"
-                )
-                col_am = 2 + (day - 1) * 2
+
+                date_obj = datetime(sheet_date.year, sheet_date.month, day)
+                date = date_obj.strftime("%m-%d")
+                weekday = date_obj.strftime("%a")
+
+                # plan-B: not to show weekends
+                if weekday in ('Sat','Sun'): continue
+                # plan-B
+
+                col_am = 2 + (dayIdx - 1) * 2
                 col_pm = col_am + 1
-                sheet.cell(row=1, column=2 + (day - 1) * 2, value=f"{date}")
+                sheet.cell(row=1, column=2 + (dayIdx - 1) * 2, value=f"{date}({weekday})")
                 sheet.cell(row=2, column=col_am, value=f"AM")
                 sheet.cell(row=2, column=col_pm, value=f"PM")
+                dayIdx += 1
 
             sheet_seat = wb[settings.EXCEL_SHEET_NAME_SEAT]
 
