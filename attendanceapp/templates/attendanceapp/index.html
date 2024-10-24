@@ -1,6 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>User Name</title>
 </head>
@@ -15,7 +15,16 @@
             <option value="{{ item.id }}">{{ item.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Go to Reservation</button>
+        <div style="display: flex;">
+            <div>
+                <p>From Calendar</p>
+                <input type="image" src="{{ MEDIA_URL }}/attendanceapp/media/menu_calendar.png" name="Calendar">
+            </div>
+            <div>
+                <p>From Seat Map</p>
+                <input type="image" src="{{ MEDIA_URL }}/attendanceapp/media/seats.png" name="Seats" style="display: block; width: 60%;">                
+            </div>
+        </div>
     </form>
 
     {% if error %}

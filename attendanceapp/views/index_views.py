@@ -9,7 +9,6 @@ import calendar
 MONTHLY_SHEETS = []
 EMPLOYEE_LIST = []
 
-PAGE_URL = 'attendanceapp/index.html'
 
 def initialize(request):
     initialize_excel()
@@ -21,7 +20,7 @@ def initialize(request):
 
     return render(
         request,
-        PAGE_URL,
+        settings.TEMPLATE_INDEX,
         {
             "employee_list": EMPLOYEE_LIST,
         },
@@ -97,8 +96,14 @@ def checkSelection(request):
   
         if employeeId == '0':
             error_message = "Select Employee"
-            return render(request, PAGE_URL, {"employee_list": EMPLOYEE_LIST, 'error': error_message})
+            return render(request, settings.TEMPLATE_INDEX, {"employee_list": EMPLOYEE_LIST, 'error': error_message})
         else:
+            print(request.POST)
             request.session['employeeId'] = employeeId
             request.session['employeeName'] = employeeName
-            return redirect('reservation_view')
+            if 'Calendar.x' in request.POST:
+                return redirect('calendar_view')
+            elif 'Seats.x' in request.POST:
+                return redirect('seat_view')
+        
+    return render(request, settings.TEMPLATE_INDEX, {"employee_list": EMPLOYEE_LIST})

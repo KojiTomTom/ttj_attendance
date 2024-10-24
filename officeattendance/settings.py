@@ -49,7 +49,7 @@ except ImportError:
     SECRET_KEY = get_random_secret_key()
     ALLOWED_HOSTS = ['.pythonanywhere.com']
 
-HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+HOST_PASSWORD = os.getenv("HOST_PASSWORD")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -161,3 +161,7 @@ EXCEL_SHEET_NAME_SEAT = 'Seats'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+TEMPLATE_INDEX = 'attendanceapp/index.html'
+TEMPLATE_CALENDAR = 'attendanceapp/calendar.html'
+TEMPLATE_SEAT = 'attendanceapp/seat.html'

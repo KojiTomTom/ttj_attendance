@@ -26,7 +26,7 @@ def initialize(request):
 
     return render(
         request,
-        "attendanceapp/reservation.html",
+        settings.TEMPLATE_CALENDAR,
         {
             "employeeId": employeeId,
             "employeeName": employeeName,
@@ -81,32 +81,6 @@ def get_reservations(month):
                 seat_id = row[0]
                 am_pm_data = [value if value is not None else "" for value in row[1:]]
                 data.append({"seat_id": seat_id, "am_pm_data":am_pm_data})
-            # if len(slots) == 0:
-            #     slots.extend(row[1:])
-
-    # for col in currentSheet.iter_cols(
-    #     min_row=1, max_row=1, min_col=2, values_only=True
-    # ):
-    #     cellVal = col[0]
-    #     if cellVal is None:
-    #         continue
-
-    #     headers.append(cellVal)
-    #     is_weekend = cellVal in ["Sat", "Sun"]
-    #     is_weekend_flags.append(is_weekend)
-
-    # for col in currentSheet.iter_cols(
-    #     min_row=2, max_row=2, min_col=2, values_only=True
-    # ):
-    #     slots.extend(col)
-
-    # data = []
-    # for row in currentSheet.iter_rows(min_row=3, values_only=True):
-    #     seat_id = row[0]
-    #     am_pm_data = [value if value is not None else "" for value in row[1:]]
-    #     data.append({"seat_id": seat_id, "am_pm_data": am_pm_data })
-
-
 
     return [headers, is_weekend_flags, slots, data]
 
@@ -123,7 +97,7 @@ def reserve_check(request):
     if isSuccess == True:
         request.session['success'] = 'Reservation success'
 
-    return redirect('reservation_view') 
+    return redirect('calendar_view') 
 
 def cancel_reservation(request):
     seat_id = request.POST.get('seat_id')
@@ -134,17 +108,17 @@ def cancel_reservation(request):
         currentSheet = wb[get_target_month()]
         currentSheet.cell(row=int(seat_id) + 2, column= int(column_number) + 2, value='')
         wb.save(settings.EXCEL_PATH)
-        return redirect('reservation_view') 
+        return redirect('calendar_view') 
     except:
         pass
     finally:
         wb.close()
 
-    return redirect('reservation_view') 
+    return redirect('calendar_view') 
 
 def month_change(request):
     if request.method == 'POST':
         selected_month = request.POST.get('monthSelect')
         request.session['selected_month'] = selected_month
 
-    return redirect('reservation_view') 
+    return redirect('calendar_view') 

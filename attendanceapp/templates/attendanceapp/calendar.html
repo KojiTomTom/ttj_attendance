@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Excel Data to ListBox</title>
 
@@ -50,10 +51,10 @@
         </thead>
         <tbody>
             {% for item in data %}
-            <tr>
+            <tr class="table-row">
                 <td>{{ item.seat_id }}</td>
                 {% for slot_value in item.am_pm_data %}
-                <td>
+                <td class="table-cell">                    
                     {% if slot_value == '' %}
                     <form method="post" action="{% url 'reserve_check' %}">
                         {% csrf_token %}
@@ -77,6 +78,39 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        const rows = document.querySelectorAll('.table-row');
+        const cells = document.querySelectorAll('.table-cell');
+
+        cells.forEach(cell => {
+            cell.addEventListener('mouseover', () => {
+                const row = cell.parentNode;
+                const index = Array.from(cell.parentNode.children).indexOf(cell);
+                
+                row.classList.add('highlight');
+                cells.forEach(c => {
+                    if (Array.from(c.parentNode.children).indexOf(c) === index) {
+                        c.classList.add('highlight');
+                    }
+                });
+            });
+
+            cell.addEventListener('mouseout', () => {
+                const row = cell.parentNode;
+                const index = Array.from(cell.parentNode.children).indexOf(cell);
+                
+                row.classList.remove('highlight');
+                cells.forEach(c => {
+                    if (Array.from(c.parentNode.children).indexOf(c) === index) {
+                        c.classList.remove('highlight');
+                    }
+                });
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>

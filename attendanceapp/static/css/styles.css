@@ -54,3 +54,6 @@ tbody tr td:first-child {
 .weekend {
     background-color: lightblue; /* 土日行を水色に */
 }
+.highlight {
+    background-color: yellow;
+}

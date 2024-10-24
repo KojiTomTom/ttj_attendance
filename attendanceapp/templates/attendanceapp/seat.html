@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Excel Data to ListBox</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <form method="GET" action="{% url 'initialize' %}">
+        <button type="submit">Go Back</button>
+    </form>
+    <div>
+        <div>Employee: {{ employeeName }}</div>
+        <div>
+            {% if errMessage %}
+            <p style="color: red;">{{ errMessage }}</p>
+            {% endif %}
+            {% if successMessage %}
+            <p style="color: green;">{{ successMessage }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <img src="{{ MEDIA_URL }}/attendanceapp/media/seats.png" alt="Seats Image" style="width: 600px;">
+        </div>
+    </div>
+</body>
+
+</html>
